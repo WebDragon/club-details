@@ -147,24 +147,37 @@ function rate_calculation_meta_box() {
 // Meta Box Content
 function rate_calculation_callback( $post ) {
 
-	wp_nonce_field('rate_calculation_nonce','rate_calculation_nonce');
+	if ( function_exists('get_field') ) {
 
-	$dues_rate = get_field('dues_rate', 'options');
-	$insurance_rate = get_field('insurance_rate', 'options');
+		wp_nonce_field('rate_calculation_nonce','rate_calculation_nonce');
 
-	// TODO : Optional - populate the data values live as numbers are entered in the respective fields for the custom post type member counts
-	// TODO : add test to ensure options fields have been populated with rate calculation values that are valid. 
-	echo <<<HTML
-	<p><b>Total Members</b>: <!-- add numbers from ACF fields for junior and senior members and insert value here --> <br>
-		<small><i>includes Seniors + Juniors</i></small></p>
-	<p><b>Dues</b>: (rate: {$dues_rate})<!-- use total members in calculation, multiplied by rate value for dues from ACF Options page for this CPT --></p>
-	<p><b>Insurance</b>: (rate: {$insurance_rate})<!-- use total members in calculation, multiplied by rate value for insurance from ACF Options page for this CPT --></p>
+		$dues_rate = get_field('dues_rate', 'options');
+		$insurance_rate = get_field('insurance_rate', 'options');
+		$total_members = get_field('adult_members') + get_field('junior_members');
+		$fmt = new NumberFormatter("en_US", NumberFormatter::CURRENCY);
+		$total_dues = $fmt->formatCurrency( $total_members * $dues_rate, "USD" );
+		$total_insurance = $fmt->formatCurrency( $total_members * $insurance_rate, "USD" );
 
+		// TODO : Optional - populate the data values live as numbers are entered in the respective fields for the custom post type member counts
+		// TODO : add test to ensure options fields have been populated with rate calculation values that are valid. 
+		echo <<<HTML
+
+		<p><b>Total Members</b>: {$total_members}<!-- add numbers from ACF fields for junior and senior members and insert value here --> <br>
+			<small><i>includes Seniors + Juniors</i></small></p>
+		<p><b>Dues</b>: {$total_dues} (rate: {$dues_rate})<!-- use total members in calculation, multiplied by rate value for dues from ACF Options page for this CPT --></p>
+		<p><b>Insurance</b>: {$total_insurance} (rate: {$insurance_rate})<!-- use total members in calculation, multiplied by rate value for insurance from ACF Options page for this CPT --></p>
 HTML;
-
+	}
 }
 // }}}
 
+// include scripting to dynamically update values onscreen if changed
+function efmls_clubdetails_enqueue_scripts() {
+	wp_enqueue_script('club-details-js', CLUB_SCRIPTS . 'club-details.js', array(), '1.0.0', true);
+}
+add_action('acf/input/admin_enqueue_scripts', 'efmls_clubdetails_enqueue_scripts');
+
+// icon shoehorn for submenu
 function efmls_inline_dashicon( $icon_type ) {
 	return <<<HTML
 		<span class="wp-menu-image dashicons-before dashicons-{$icon_type}" aria-hidden="true"></span>
