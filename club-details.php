@@ -153,7 +153,9 @@ function rate_calculation_callback( $post ) {
 
 		$dues_rate = get_field('dues_rate', 'options');
 		$insurance_rate = get_field('insurance_rate', 'options');
-		$total_members = get_field('adult_members') + get_field('junior_members');
+		$adults = get_field('adult_members');
+		$juniors = get_field('junior_members');
+		$total_members = $adults + $juniors;
 		$fmt = new NumberFormatter("en_US", NumberFormatter::CURRENCY);
 		$total_dues = $fmt->formatCurrency( $total_members * $dues_rate, "USD" );
 		$total_insurance = $fmt->formatCurrency( $total_members * $insurance_rate, "USD" );
@@ -162,7 +164,7 @@ function rate_calculation_callback( $post ) {
 		// TODO : add test to ensure options fields have been populated with rate calculation values that are valid. 
 		echo <<<HTML
 
-		<p><b>Total Members</b>: {$total_members}<!-- add numbers from ACF fields for junior and senior members and insert value here --> <br>
+		<p><b>Total Members</b>: {$total_members} ( Adults: {$adults}, Juniors: {$juniors} )<!-- add numbers from ACF fields for junior and senior members and insert value here --> <br>
 			<small><i>includes Seniors + Juniors</i></small></p>
 		<p><b>Dues</b>: {$total_dues} (rate: {$dues_rate})<!-- use total members in calculation, multiplied by rate value for dues from ACF Options page for this CPT --></p>
 		<p><b>Insurance</b>: {$total_insurance} (rate: {$insurance_rate})<!-- use total members in calculation, multiplied by rate value for insurance from ACF Options page for this CPT --></p>
