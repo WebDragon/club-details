@@ -153,8 +153,8 @@ function rate_calculation_callback( $post ) {
 
 		$dues_rate = get_field('dues_rate', 'options');
 		$insurance_rate = get_field('insurance_rate', 'options');
-		$adults = get_field('adult_members');
-		$juniors = get_field('junior_members');
+		$adults = get_sub_field('adult_members');
+		$juniors = get_sub_field('junior_members');
 		$total_members = $adults + $juniors;
 		$fmt = new NumberFormatter("en_US", NumberFormatter::CURRENCY);
 		$total_dues = $fmt->formatCurrency( $total_members * $dues_rate, "USD" );
