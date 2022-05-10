@@ -149,13 +149,16 @@ function rate_calculation_callback( $post ) {
 
 	wp_nonce_field('rate_calculation_nonce','rate_calculation_nonce');
 
+	$dues_rate = get_field('dues_rate', 'options');
+	$insurance_rate = get_field('insurance_rate', 'options');
+
 	// TODO : Optional - populate the data values live as numbers are entered in the respective fields for the custom post type member counts
 	// TODO : add test to ensure options fields have been populated with rate calculation values that are valid. 
 	echo <<<HTML
 	<p><b>Total Members</b>: <!-- add numbers from ACF fields for junior and senior members and insert value here --> <br>
 		<small><i>includes Seniors + Juniors</i></small></p>
-	<p><b>Dues</b>:<!-- use total members in calculation, multiplied by rate value for dues from ACF Options page for this CPT --></p>
-	<p><b>Insurance</b>:<!-- use total members in calculation, multiplied by rate value for insurance from ACF Options page for this CPT --></p>
+	<p><b>Dues</b>: (rate: {$dues_rate})<!-- use total members in calculation, multiplied by rate value for dues from ACF Options page for this CPT --></p>
+	<p><b>Insurance</b>: (rate: {$insurance_rate})<!-- use total members in calculation, multiplied by rate value for insurance from ACF Options page for this CPT --></p>
 
 HTML;
 
