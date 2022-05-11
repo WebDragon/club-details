@@ -166,11 +166,11 @@ function rate_calculation_callback( $post ) {
 		// TODO : Optional - populate the data values live as numbers are entered in the respective fields for the custom post type member counts
 		echo <<<HTML
 
-		<p><b>Total Members</b>: {$total_members} <br>
+		<p><b>Total Members</b>: <span id="totalmembers">{$total_members}</span><br>
 			<small><i>( Adults: {$membership['adult_members']}, Juniors: {$membership['junior_members']} )</i></small></p>
-		<p><b>Dues</b>: {$total_dues}<br>
+		<p><b>Dues</b>: <span id="totaldues">{$total_dues}</span><br>
 			<small><i>(rate: {$dues_rate})</i></small></p>
-		<p><b>Insurance</b>: {$total_insurance}<br>
+		<p><b>Insurance</b>: <span id="totalinsurance">{$total_insurance}</span><br>
 			<small><i>(rate: {$insurance_rate})</i></small></p>
 HTML;
 	}
@@ -178,10 +178,13 @@ HTML;
 // }}}
 
 // include scripting to dynamically update values onscreen if changed
-function efmls_clubdetails_enqueue_scripts() {
-	wp_enqueue_script('club-details-js', CLUB_SCRIPTS . 'club-details.js', array(), '1.0.0', true);
-}
-add_action('acf/input/admin_enqueue_scripts', 'efmls_clubdetails_enqueue_scripts');
+//function efmls_clubdetails_enqueue_scripts() {
+//	wp_enqueue_script('club-details-js', CLUB_SCRIPTS . 'club-details.js', array(), '1.0.0', true);
+//	wp_enqueue_style('efmls-clubdetails-css', CLUB_STYLES . 'style.css', array(), '1.0.0', 'all');
+//}
+//add_action('acf/input/admin_enqueue_scripts', 'efmls_clubdetails_enqueue_scripts');
+
+
 
 // icon shoehorn for submenu
 function efmls_inline_dashicon( $icon_type ) {
