@@ -20,9 +20,11 @@ setlocale( LC_MONETARY, 'en_US.UTF-8');
 
 define( 'CLUB_ROOT',	plugins_url( '', __FILE__ ) );
 define( 'CLUB_ASSETS',	plugin_dir_path( __FILE__ ) . 'assets/' );
-//define( 'CLUB_IMAGES',	CLUB_ASSETS . 'images/' );
-define( 'CLUB_STYLES',	CLUB_ASSETS . 'css/' );
-define( 'CLUB_SCRIPTS',	CLUB_ASSETS . 'js/' );
+
+//define( 'CLUB_IMAGES',	CLUB_ROOT . '/assets/images/' );
+define( 'CLUB_STYLES',	CLUB_ROOT . '/assets/css/' );
+define( 'CLUB_SCRIPTS',	CLUB_ROOT . '/assets/js/' );
+
 //define( 'CLUB_INCL',	CLUB_ASSETS . 'inc/' );
 
 // {{{ Register Custom Post Type for EFMLS Club Details 
