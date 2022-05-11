@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.10
+	Version: 0.11
 	License: GPL3
  */
 
@@ -11,7 +11,6 @@
 //		and does not need to be integrated into the plugin
 //
 // TODO	add check to make sure ACF Pro is enabled 
-// TODO	add display logic in meta-box with dues/liability calculations based on member count
 // TODO	add front-end display logic for the clubdetails Loop and for the single-posts 
 //		[may not be internally required as it seems possible to do this within Elementor itself using Elementor Custom Templates]
 
@@ -183,8 +182,6 @@ HTML;
 //	wp_enqueue_style('efmls-clubdetails-css', CLUB_STYLES . 'style.css', array(), '1.0.0', 'all');
 //}
 //add_action('acf/input/admin_enqueue_scripts', 'efmls_clubdetails_enqueue_scripts');
-
-
 
 // icon shoehorn for submenu
 function efmls_inline_dashicon( $icon_type ) {
