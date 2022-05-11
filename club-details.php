@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.9
+	Version: 0.10
 	License: GPL3
  */
 
@@ -153,21 +153,23 @@ function rate_calculation_callback( $post ) {
 
 		$dues_rate = get_field('dues_rate', 'options');
 		$insurance_rate = get_field('insurance_rate', 'options');
-		$adults = get_sub_field('adult_members');
-		$juniors = get_sub_field('junior_members');
-		$total_members = $adults + $juniors;
+		$membership = get_field('membership');
+
+		$total_members = $membership['adult_members'] + $membership['junior_members'];
+
 		$fmt = new NumberFormatter("en_US", NumberFormatter::CURRENCY);
 		$total_dues = $fmt->formatCurrency( $total_members * $dues_rate, "USD" );
 		$total_insurance = $fmt->formatCurrency( $total_members * $insurance_rate, "USD" );
 
 		// TODO : Optional - populate the data values live as numbers are entered in the respective fields for the custom post type member counts
-		// TODO : add test to ensure options fields have been populated with rate calculation values that are valid. 
 		echo <<<HTML
 
-		<p><b>Total Members</b>: {$total_members} ( Adults: {$adults}, Juniors: {$juniors} )<!-- add numbers from ACF fields for junior and senior members and insert value here --> <br>
-			<small><i>includes Seniors + Juniors</i></small></p>
-		<p><b>Dues</b>: {$total_dues} (rate: {$dues_rate})<!-- use total members in calculation, multiplied by rate value for dues from ACF Options page for this CPT --></p>
-		<p><b>Insurance</b>: {$total_insurance} (rate: {$insurance_rate})<!-- use total members in calculation, multiplied by rate value for insurance from ACF Options page for this CPT --></p>
+		<p><b>Total Members</b>: {$total_members} <br>
+			<small><i>( Adults: {$membership['adult_members']}, Juniors: {$membership['junior_members']} )</i></small></p>
+		<p><b>Dues</b>: {$total_dues}<br>
+			<small><i>(rate: {$dues_rate})</i></small></p>
+		<p><b>Insurance</b>: {$total_insurance}<br>
+			<small><i>(rate: {$insurance_rate})</i></small></p>
 HTML;
 	}
 }
