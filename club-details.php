@@ -77,6 +77,7 @@ function register_efmls_club() {
 		'rest_base'				=> "",
 		'rewrite'				=> array('slug' => 'clubdetails', 'with_front' => false),
 		'show_in_menu'			=> true,
+		'show_in_nav_menus'		=> true,
 		'show_in_rest'			=> false,
 		'show_ui'				=> true,
 		'supports'				=> $clubsupports,
