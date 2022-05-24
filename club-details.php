@@ -160,7 +160,7 @@ function rate_calculation_callback( $post ) {
 		$total_members = $membership['adult_members'] + $membership['junior_members'];
 
 		$fmt = new NumberFormatter("en_US", NumberFormatter::CURRENCY);
-		$total_dues = $fmt->formatCurrency( $total_members * $dues_rate, "USD" );
+		$total_dues = $fmt->formatCurrency( $membership['adult_members'] * $dues_rate, "USD" );
 		$total_insurance = $fmt->formatCurrency( $total_members * $insurance_rate, "USD" );
 
 		// TODO : Optional - populate the data values live as numbers are entered in the respective fields for the custom post type member counts
@@ -169,7 +169,7 @@ function rate_calculation_callback( $post ) {
 		<p><b>Total Members</b>: <span id="totalmembers">{$total_members}</span><br>
 			<small><i>( Adults: {$membership['adult_members']}, Juniors: {$membership['junior_members']} )</i></small></p>
 		<p><b>Dues</b>: <span id="totaldues">{$total_dues}</span><br>
-			<small><i>(rate: {$dues_rate})</i></small></p>
+			<small><i>(rate: {$dues_rate} *Adults only)</i></small></p>
 		<p><b>Insurance</b>: <span id="totalinsurance">{$total_insurance}</span><br>
 			<small><i>(rate: {$insurance_rate})</i></small></p>
 HTML;
