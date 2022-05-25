@@ -187,7 +187,7 @@ function admin_notice_members_warning () {
 
 			echo <<<HTML
 <div class="notice notice-warning">
-	<h3 class="wp-menu-image dashicons-before dashicons-warning" style="margin-left: 0.75em;">Warning: Unable to calculate dues and insurance rates.</h3>
+	<h3><span class="wp-menu-image dashicons-before dashicons-warning"></span> Warning: Unable to calculate dues and insurance rates.</h3>
 	<p>Please remember to add member counts for junior and senior club members.</p>
 </div>
 HTML;
