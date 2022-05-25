@@ -180,7 +180,7 @@ HTML;
 // {{{ Add Admin Notice for when member counts total zero
 function admin_notice_members_warning () {
 	$screen = get_current_screen();
-	if ( $screen && 'edit-clubdetails' === $screen->id && function_exists('get_field') ) {
+	if ( $screen && 'edit' === $screen->parent_base && 'clubdetails' === $screen->id && function_exists('get_field') ) {
 		$membership = get_field('membership');
 		$total_members = $membership['adult_members'] + $membership['junior_members'];
 		if ( $total_members < 1 ) {
