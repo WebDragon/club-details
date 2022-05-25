@@ -177,6 +177,28 @@ HTML;
 }
 // }}}
 
+// {{{ Add Admin Notice for when member counts total zero
+function admin_notice_members_warning () {
+	$screen = get_current_screen();
+	if ( $screen && 'edit' === $screen->parent_base && 'clubdetails' === $screen->id && function_exists('get_field') ) {
+		$membership = get_field('membership');
+		$total_members = $membership['adult_members'] + $membership['junior_members'];
+		if ( $total_members < 1 ) {
+
+			echo <<<HTML
+<div class="notice notice-warning">
+	<h3><span class="wp-menu-image dashicons-before dashicons-warning"></span> Warning: Unable to calculate dues and insurance rates.</h3>
+	<p>Please remember to add member counts for junior and senior club members.</p>
+</div>
+HTML;
+		}
+	}
+}
+
+add_action('admin_notices', 'admin_notice_members_warning');
+
+// }}}
+
 // include scripting to dynamically update values onscreen if changed
 //function efmls_clubdetails_enqueue_scripts() {
 //	wp_enqueue_script('club-details-js', CLUB_SCRIPTS . 'club-details.js', array(), '1.0.0', true);
