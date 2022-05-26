@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.14
+	Version: 0.15
 	License: GPL3
  */
 
@@ -197,6 +197,67 @@ HTML;
 
 add_action('admin_notices', 'admin_notice_members_warning');
 
+// }}}
+
+// {{{ add shortcode to fancy up output of public contact information better than can be accomplished
+// with the simple methods provided by dynamic tags in Elementor for ACF fields
+function efmls_public_contact_shortcode( $atts, $content=null ) {
+	extract( shortcode_atts( array(
+		'email' => true,
+		'phone' => true,
+	), $atts), EXTR_PREFIX_ALL, 'efmls');
+	$efmls_email = filter_var($efmls_email, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+	$efmls_phone = filter_var($efmls_email, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+	if ( !function_exists('get_field') ) { return "<h3> `get_field` function not available. Please make sure ACF is installed and enabled</h3>"; }
+	$efmls_general = get_field('general_information');
+	$efmls_public = array(
+		'name' => $efmls_general['public_contact_name'],
+		'email' => $efmls_general['public_contact_email'],
+		'phone' => $efmls_general['public_contact_phone'],
+	);
+	$shortcode_return = '';
+	if (
+		(strlen($efmls_public['name']) <=1)
+	 && (strlen($efmls_public['email']) <=1)
+	 && (strlen($efmls_public['phone']) <=1) ) {
+
+	 $shortcode_return .= <<<HTML
+<em>No public contact information has been provided at this time</em>
+HTML;
+
+	}
+
+	if ($efmls_email && (strlen($efmls_public['email']) > 1) && (strlen($efmls_public['name']) > 1) ) {
+
+		$shortcode_return .= <<<HTML
+<a href="mailto:{$efmls_public['email']}"><i class="fas fa-envelope"></i> {$efmls_public['name']}</a><br>
+HTML;
+
+	} elseif (strlen($efmls_public['name']) > 1) {
+
+		$shortcode_return .= <<<HTML
+<i class="fa fa-user"></i> {$efmls_public['name']}<br>
+HTML;
+
+	}
+
+	if ( strlen( $efmls_public['phone'] ) > 1 ) {
+
+		$shortcode_return .= <<<HTML
+		<i class="fas fa-phone"></i> <a href="tel:+1{$efmls_public['phone']}">{$efmls_public['phone']}</a><br>
+HTML;
+
+	}
+
+	return <<<HTML
+
+<div>
+	{$shortcode_return}
+</div>
+
+HTML;
+}
+add_shortcode('club_contact_public','efmls_public_contact_shortcode');
 // }}}
 
 // include scripting to dynamically update values onscreen if changed
