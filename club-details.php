@@ -3,16 +3,16 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.13
+	Version: 0.14
 	License: GPL3
  */
 
 // NOTE	import/export/bulk-edit logic can be handled by https://www.wpallimport.com/export-advanced-custom-fields/
 //		and does not need to be integrated into the plugin
+// NOTE setting revision limits has been relegated to WP Revisions Control plugin, as it does a more comprehensive 
+//		job of it, and also allows for purging excess revisions
 //
 // TODO	add check to make sure ACF Pro is enabled 
-// TODO	add front-end display logic for the clubdetails Loop and for the single-posts 
-//		[may not be internally required as it seems possible to do this within Elementor itself using Elementor Custom Templates]
 
 date_default_timezone_set("UTC");
 setlocale( LC_MONETARY, 'en_US.UTF-8');
@@ -197,18 +197,6 @@ HTML;
 
 add_action('admin_notices', 'admin_notice_members_warning');
 
-// }}}
-
-// {{{ Add limits for revision counts to cut down on database storage of otherwise unlimited revisions
-add_filter( 'wp_revisions_to_keep', 'efmls_clubdetails_revisions', 10, 2 );
-
-function efmls_clubdetails_revisions( $num, $post ) {
-
-    if( 'clubdetails' == $post->post_type ) {
-        $num = 10;
-    }
-    return $num;
-}
 // }}}
 
 // include scripting to dynamically update values onscreen if changed
