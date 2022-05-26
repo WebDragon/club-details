@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.12
+	Version: 0.13
 	License: GPL3
  */
 
@@ -197,6 +197,18 @@ HTML;
 
 add_action('admin_notices', 'admin_notice_members_warning');
 
+// }}}
+
+// {{{ Add limits for revision counts to cut down on database storage of otherwise unlimited revisions
+add_filter( 'wp_revisions_to_keep', 'efmls_clubdetails_revisions', 10, 2 );
+
+function efmls_clubdetails_revisions( $num, $post ) {
+
+    if( 'clubdetails' == $post->post_type ) {
+        $num = 10;
+    }
+    return $num;
+}
 // }}}
 
 // include scripting to dynamically update values onscreen if changed
