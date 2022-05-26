@@ -230,7 +230,7 @@ HTML;
 	if ($efmls_email && (strlen($efmls_public['email']) > 1) && (strlen($efmls_public['name']) > 1) ) {
 
 		$shortcode_return .= <<<HTML
-<a href="mailto:{$efmls_public['email']}"><i class="fas fa-envelope"></i> {$efmls_public['name']}</a><br>
+<i class="fas fa-envelope"></i> <a href="mailto:{$efmls_public['email']}">{$efmls_public['name']}</a><br>
 HTML;
 
 	} elseif (strlen($efmls_public['name']) > 1) {
@@ -244,7 +244,7 @@ HTML;
 	if ( strlen( $efmls_public['phone'] ) > 1 ) {
 
 		$shortcode_return .= <<<HTML
-		<i class="fas fa-phone"></i> <a href="tel:+1{$efmls_public['phone']}">{$efmls_public['phone']}</a><br>
+<i class="fas fa-phone"></i> <a href="tel:+1{$efmls_public['phone']}">{$efmls_public['phone']}</a><br>
 HTML;
 
 	}
