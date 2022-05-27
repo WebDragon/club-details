@@ -260,10 +260,20 @@ HTML;
 add_shortcode('club_contact_public','efmls_public_contact_shortcode');
 // }}}
 
+// {{{ Add custom stylesheet for when we are editing the clubdetails custom post type
+function efmls_add_cpt_styles () {
+	global $post_type;
+	if ( is_admin() && 'clubdetails' == $post_type ) {
+		wp_enqueue_style('club-details-styles', CLUB_STYLES . 'style.css');
+	}
+}
+add_action( 'admin_print_scripts-post-new.php', 'efmls_add_cpt_styles', 11 );
+add_action( 'admin_print_scripts-post.php', 'efmls_add_cpt_styles', 11 );
+// }}}
+
 // include scripting to dynamically update values onscreen if changed
 //function efmls_clubdetails_enqueue_scripts() {
 //	wp_enqueue_script('club-details-js', CLUB_SCRIPTS . 'club-details.js', array(), '1.0.0', true);
-//	wp_enqueue_style('efmls-clubdetails-css', CLUB_STYLES . 'style.css', array(), '1.0.0', 'all');
 //}
 //add_action('acf/input/admin_enqueue_scripts', 'efmls_clubdetails_enqueue_scripts');
 

@@ -1,1 +1,11 @@
 /* css stub */
+.acf-label p.description,
+.notice.notice-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    position: relative;
+    padding: 0.33rem 1.25rem ;
+    margin: 0.66rem 0 1rem;    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
