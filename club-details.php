@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.16
+	Version: 0.17
 	License: GPL3
  */
 
@@ -88,10 +88,10 @@ function register_efmls_club() {
 
     $clubregions = array(
         'labels' => array(
-			'name' => 'Regions',
-			'singular_item' => 'Region',
-			'add_new_item' => 'Add New Region',
-			'edit_item' => 'Edit Region',
+			'name' => 'Club Regions',
+			'singular_item' => 'Club Region',
+			'add_new_item' => 'Add New Club Region',
+			'edit_item' => 'Edit Club Region',
         ),
         'hierarchical' => true,
         'public' => true,
