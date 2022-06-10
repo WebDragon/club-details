@@ -17,3 +17,12 @@
 	background-color: #fff3cd;
 	border-color: #ffeeba;
 }
+.acf-accordion.-open .acf-label.acf-accordion-title {
+    background-color: lightslategrey;
+    color: white;
+}
+.acf-accordion.-open > .acf-accordion-content {
+	background-color: #faf0e6;
+	background-color: linen;
+	color: inherit;
+}
