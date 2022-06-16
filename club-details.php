@@ -275,7 +275,7 @@ add_action( 'admin_print_scripts-post.php', 'efmls_add_cpt_styles', 11 );
 function efmls_post_thumbnail_fallback( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
     if ( ( 'clubdetails' == get_post_type() ) && empty( $html ) ) {
 		$efmls_featured_image_default = CLUB_IMAGES . "EFMLS-Member-Logo.png";
-		echo <<<HTML
+		$html = <<<HTML
 <img src="{$efmls_featured_image_default}" alt="EFMLS Member Club Logo placeholder image" width="300" height="300" class="wp-post-image wpgmp_featured_image" />
 HTML;
 	}
