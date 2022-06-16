@@ -20,7 +20,7 @@ setlocale( LC_MONETARY, 'en_US.UTF-8');
 define( 'CLUB_ROOT',	plugins_url( '', __FILE__ ) );
 define( 'CLUB_ASSETS',	plugin_dir_path( __FILE__ ) . 'assets/' );
 
-//define( 'CLUB_IMAGES',	CLUB_ROOT . '/assets/images/' );
+define( 'CLUB_IMAGES',	CLUB_ROOT . '/assets/images/' );
 define( 'CLUB_STYLES',	CLUB_ROOT . '/assets/css/' );
 define( 'CLUB_SCRIPTS',	CLUB_ROOT . '/assets/js/' );
 
@@ -269,6 +269,20 @@ function efmls_add_cpt_styles () {
 }
 add_action( 'admin_print_scripts-post-new.php', 'efmls_add_cpt_styles', 11 );
 add_action( 'admin_print_scripts-post.php', 'efmls_add_cpt_styles', 11 );
+// }}}
+
+// {{{ add default featured image to display on front-end when none is supplied by end-user
+function efmls_post_thumbnail_fallback( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+    if ( ( 'clubdetails' == get_post_type() ) && empty( $html ) ) {
+		$efmls_featured_image_default = CLUB_IMAGES . "EFMLS-Member-Logo.png";
+		echo <<<HTML
+<img src="{$efmls_featured_image_default}" alt="EFMLS Member Club Logo placeholder image" width="300" height="300" class="wp-post-image wpgmp_featured_image" />
+HTML;
+	}
+
+    return $html;
+}
+add_filter( 'post_thumbnail_html', 'efmls_post_thumbnail_fallback', 20, 5 );
 // }}}
 
 // include scripting to dynamically update values onscreen if changed
