@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.19
+	Version: 0.20
 	License: GPL3
  */
 
@@ -30,7 +30,8 @@ define( 'CLUB_SCRIPTS',	CLUB_ROOT . '/assets/js/' );
 function register_efmls_club() {
 
 	$clublabels = array(
-		'add_new_item'			=> __("Add Club Details", 'efmls'),
+		'add_new'				=> __("Add New Club", 'efmls'),
+		'add_new_item'			=> __("Add Mineral Club Details", 'efmls'),
 		'all_items'				=> __("All Clubs", 'efmls'),
 		'archives'				=> __("Club Archives", 'efmls'),
 		'attributes'			=> __("Club attributes", 'efmls'),
@@ -39,7 +40,7 @@ function register_efmls_club() {
 		'filter_items_list'		=> __("Filter Club List", 'efmls'),
 		'items_list'			=> __("Club list", 'efmls'),
 		'items_list_navigation'	=> __("Club list navigation", 'efmls'),
-		'menu_name'				=> __("Club Details", 'efmls'),
+		'menu_name'				=> __("Mineral Clubs", 'efmls'),
 		'name'					=> __("Club Details", 'efmls'),
 		'new_item'				=> __("New Club", 'efmls'),
 		'not_found'				=> __("No Clubs found", 'efmls'),
@@ -92,7 +93,7 @@ function register_efmls_club() {
 			'singular_item' => 'Club Region',
 			'add_new_item' => 'Add New Club Region',
 			'edit_item' => 'Edit Club Region',
-			'menu_name' => 'Club Regions'
+			'menu_name' => 'Club Regions',
         ),
         'hierarchical' => true,
         'public' => true,
