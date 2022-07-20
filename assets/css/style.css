@@ -29,3 +29,6 @@
 .acf-field-group > .acf-label {
 	font-size: 1.3rem;
 }
+.post-type-clubdetails .notice p {
+	font-size: larger;
+}

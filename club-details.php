@@ -188,6 +188,7 @@ function admin_notice_members_warning () {
 		if ( $total_members < 1 ) {
 
 			echo <<<HTML
+
 <div class="notice notice-warning">
 	<h3><span class="wp-menu-image dashicons-before dashicons-warning"></span> Warning: Unable to calculate dues and insurance rates.</h3>
 	<p>Please remember to add member counts for junior and senior club members.</p>
@@ -198,6 +199,25 @@ HTML;
 }
 
 add_action('admin_notices', 'admin_notice_members_warning');
+
+// }}}
+
+// {{{ Add Admin Notice for when user needs help with their form
+
+function admin_notice_member_assistance () {
+	$screen = get_current_screen();
+	if ( $screen && 'edit' === $screen->parent_base && 'clubdetails' === $screen->id ) {
+		echo <<<HTML
+
+<div class="notice notice-info">
+	<h3><span class="wp-menu-image dashicons-before dashicons-lightbulb"></span> Need Assistance? </h3>
+	<p>Please Contact <a href="mailto:efmls.clubmanager@mad4.us"><span class="wp-menu-image dashicons-before dashicons-email-alt"></span> The EFMLS Clubs Manager</a> if you have any questions regarding editing your club information.</p>
+</div>
+HTML;
+	}
+}
+
+add_action('admin_notices', 'admin_notice_member_assistance');
 
 // }}}
 
