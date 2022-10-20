@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info with additional shortcodes for use in Elementor templating
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.21
+	Version: 0.22
 	License: GPL3
  */
 
@@ -184,7 +184,7 @@ function admin_notice_members_warning () {
 	$screen = get_current_screen();
 	if ( $screen && 'edit' === $screen->parent_base && 'clubdetails' === $screen->id && function_exists('get_field') ) {
 		$membership = get_field('membership');
-		$total_members = $membership['adult_members'] + $membership['junior_members'];
+		$total_members = (isset($membership['adult_members']) && isset($membership['junior_members']) ) ? ($membership['adult_members'] + $membership['junior_members']) : 0;
 		if ( $total_members < 1 ) {
 
 			echo <<<HTML
