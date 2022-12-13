@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info with additional shortcodes for use in Elementor templating
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.23
+	Version: 0.24
 	License: GPL3
  */
 
@@ -157,6 +157,7 @@ function rate_calculation_callback( $post ) {
 
 		$dues_rate = get_field('dues_rate', 'options');
 		$insurance_rate = get_field('insurance_rate', 'options');
+		$year_valid = get_field('valid_for_year', 'options');
 		$membership = get_field('membership');
 
 		// silence noisy php notices
@@ -177,6 +178,7 @@ function rate_calculation_callback( $post ) {
 			<small><i>(rate: {$dues_rate} *Adults only)</i></small></p>
 		<p><b>Insurance</b>: <span id="totalinsurance">{$total_insurance}</span><br>
 			<small><i>(rate: {$insurance_rate})</i></small></p>
+		<p><em>Dues and Insurance rates valid for calendar year:</em> <b>{$year_valid}</b></p>
 HTML;
 	}
 }
