@@ -487,8 +487,8 @@ HTML;
 <div class="club_directory">
 	{$shortcode_return}
 </div>
+<h1>Alphabetical List of Clubs</h1>
 <div class="alphabetical_clubs">
-	<h2>Alphabetical List of Clubs</h2>
 	{$alpha_list}
 </div>
 HTML;
