@@ -419,7 +419,7 @@ HTML;
 HTML;
 
 	}
-
+	$club_names = array();
 	ksort($ordered_data);
 	foreach ($ordered_data as $region => $regiondata ) {
 		$shortcode_return .= <<<HTML
@@ -429,12 +429,26 @@ HTML;
 HTML;
 		ksort($regiondata['clubs']);
 		foreach ($regiondata['clubs'] as $club_name => $clubdata ) {
+			$club_names[] = $club_name;
 			$shortcode_return .= $clubdata;
 		}
 		$shortcode_return .= <<<HTML
 		</section>
+HTML;	
+	}
+	$alpha_list = <<<HTML
+		<section class="alpha_list">
+HTML;
+	ksort($club_names);
+	foreach ($club_names as $club_name) {
+		$alpha_list .= <<<HTML
+			<p>{$club_name}</p>
 HTML;
 	}
+	$alpha_list .= <<<HTML
+		</section>
+HTML;
+
 	wp_reset_postdata();
 	return <<<HTML
 <style>
@@ -472,6 +486,10 @@ HTML;
 </style>
 <div class="club_directory">
 	{$shortcode_return}
+</div>
+<div class="alphabetical_clubs">
+	<h2>Alphabetical List of Clubs</h2>
+	{$alpha_list}
 </div>
 HTML;
 
