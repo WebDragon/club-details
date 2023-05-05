@@ -287,6 +287,199 @@ HTML;
 add_shortcode('club_contact_public','efmls_public_contact_shortcode');
 // }}}
 
+// {{{ add shortcode to generate fancy Directory for publication annually
+//
+function efmls_generate_directory( $atts, $content=null ) {
+	// extract( shortcode_atts( array( '' => true, ), $atts), EXTR_PREFIX_ALL, 'efmls');
+	if ( !class_exists('ACF') or  !function_exists('get_field') ) { return "<h3>`get_field` function not available. Please make sure ACF is installed and enabled</h3>"; }
+
+	if ( !function_exists("efmls_tabledata") ) { /* {{{ */
+		function efmls_tabledata( $title, $name, $phone, $email ) {
+
+			$name = ( $name === null || $name === '' || preg_match("/VACANT|NONE|TBA/", $name) ) ? "OPEN" : $name;
+
+			if ( $phone === null || $phone === '' ) {
+				$phone = "N/A";
+			}
+			elseif ( preg_match( "/555-1212/", $phone) ) {
+				$phone = "<span class='text-warning'>not supplied</span>";
+			}
+			else {
+				$phone = <<<HTML
+<a href="tel:+1{$phone}">{$phone}</a>
+HTML;
+			}
+
+			if ( $email === null || $email === '' ) {
+				$email = "N/A";
+			}
+			elseif ( preg_match( "/(no-?reply|nocontactemail)\@efmls\.org/", $email) ) {
+				$email = "<span class='text-warning'>not supplied</span>";
+			}
+			else {
+				$email = <<<HTML
+<a href="mailto:{$email}">{$email}</a>
+HTML;
+			}
+
+			return <<<HTML
+
+						<tr>
+							<td><b>$title</b></td>
+							<td><span class="officer">$name</span></td>
+							<td>$phone</td>
+							<td>$email</td>
+						</tr>
+HTML;
+		}
+	} /* }}} */
+	$shortcode_return = '';
+	$ordered_data = array();
+
+	$q = new WP_Query( array(
+		'post_type'			=> 'clubdetails',
+		'posts_per_page'	=> -1,
+		'post_status'		=> 'publish',
+		'no_found_rows'		=> true,
+		// this doesn't work because sub-fields are serialized and cannot be queried in this manner:
+		// 'meta_query'		=> [
+		// 	'relation' => 'AND',
+		// 	'state_clause' => [ 'key' => 'state', 'compare' => 'EXISTS' ],
+		// 	'clubname_clause' => [ 'key' => 'club_name', 'compare' => 'EXISTS' ],
+		// ],
+		// 'orderby'			=> [
+		// 	'state_clause' => 'ASC',
+		// 	'clubname_clause' => 'ASC',
+		// ],
+		// this works:
+		'orderby'			=> 'title',
+		'order' => 'ASC',
+	));
+
+	while ( $q->have_posts() ) {
+		$q->the_post();
+
+		$efmls_general = get_field('general_information');
+		$terms = wp_get_post_terms( get_the_ID(), 'clubregions', [ 'fields'=>'all', 'object_ids'=>$efmls_general['region'] ] );
+		$region = $terms[0]->name; $regiondesc = $terms[0]->description;
+
+		$efmls_member = get_field('membership');
+		$efmls_officer = get_field('club_officers');
+
+		$img = get_the_post_thumbnail(get_the_ID(), 'medium', ['class' => 'img-responsive']);
+		$fallbackimg = <<<HTML
+			<figure><img width="300" height="300" src=/wp-content/uploads/2022/05/EFMLS-Member-Logo.png" class="img-responsive wp-post-image" title="EFMLS Member Club Logo placeholder image" alt="EFMLS Member Club Logo placeholder image" loading="lazy" srcset="/wp-content/uploads/2022/05/EFMLS-Member-Logo.png 600w, /wp-content/uploads/2022/05/EFMLS-Member-Logo-300x300.png 300w, /wp-content/uploads/2022/05/EFMLS-Member-Logo-150x150.png 150w" sizes="(max-width: 600px) 100vw, 600px"></figure>
+HTML;
+		$img = ($img === null || $img === '') ? $fallbackimg : $img;
+		$ordered_data[$region]['desc'] = $regiondesc;
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= <<<HTML
+
+	<div class="club_directory_entry">
+		<div class="club_directory_info">
+			<div class="club_directory_logo">{$img}</div>
+			<h3>{$efmls_general['club_name']} &ndash; <i class="fa fa-map-marker"></i> <i>{$region}</i></h3>
+
+			<p><b>Club Website</b>: <a href="{$efmls_general['website_url']}">{$efmls_general['website_url']}</a><br>
+			<b>Facebook</b>: <a href="{$efmls_general['facebook_url']}">{$efmls_general['facebook_url']}</a><br>
+			<b>Meetings</b>: {$efmls_general['date_or_frequency']}, {$efmls_general['time']} - {$efmls_general['meeting_location']}<br>
+			<b>Adults</b>: {$efmls_member['adult_members']}, <b>Juniors</b>: {$efmls_member['junior_members']} &bull; <b>Club Organized</b>: {$efmls_general['club_organized']} &bull; <b>Joined EFMLS</b>: {$efmls_general['joined_efmls']}
+			</p>
+			<table class="officers">
+				<caption>
+					<h5>Officers</h5> &ndash;
+					<b>Elected</b>: {$efmls_member['officers_elected_month']} &bull; <b>Installed</b>: {$efmls_member['officers_installed_month']} &bull; <b>Take Office</b>: {$efmls_member['officers_takeoffice_month']}
+				</caption>
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Name</th>
+						<th>Phone</th>
+						<th>Email</th>
+					</tr>
+				</thead>
+				<tbody>
+HTML;
+
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "President", $efmls_officer['president_name'], $efmls_officer['president_phone'], $efmls_officer['president_email'] );
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Vice President", $efmls_officer['vp_name'], $efmls_officer['vp_phone'], $efmls_officer['vp_email'] );
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Secretary", $efmls_officer['secretary_name'], $efmls_officer['secretary_phone'], $efmls_officer['secretary_email'] );
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Treasurer", $efmls_officer['treasurer_name'], $efmls_officer['treasurer_phone'], $efmls_officer['treasurer_email'] );
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Liason", $efmls_officer['liason_name'], $efmls_officer['liason_phone'], $efmls_officer['liason_email'] );
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Editor", $efmls_officer['editor_name'], $efmls_officer['editor_phone'], $efmls_officer['editor_email'] );
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Webmaster", $efmls_officer['webmaster_name'], $efmls_officer['webmaster_phone'], $efmls_officer['webmaster_email'] );
+
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= <<<HTML
+				</tbody>
+			</table>
+			<p><b>Bulletin/Newsletter</b>: {$efmls_general['bulletinnewsletter_title']}<br>
+			<b>Show/Swap</b>: {$efmls_general['showswap_date']}, {$efmls_general['showswap_location']}
+			</p>
+		</div>
+	</div>
+HTML;
+
+	}
+
+	ksort($ordered_data);
+	foreach ($ordered_data as $region => $regiondata ) {
+		$shortcode_return .= <<<HTML
+		<section class="clubregion">
+			<h2>{$region}</h2>
+			<p class="regiondesc">{$regiondata['desc']}</p>
+HTML;
+		ksort($regiondata['clubs']);
+		foreach ($regiondata['clubs'] as $club_name => $clubdata ) {
+			$shortcode_return .= $clubdata;
+		}
+		$shortcode_return .= <<<HTML
+		</section>
+HTML;
+	}
+	wp_reset_postdata();
+	return <<<HTML
+<style>
+.club_directory_entry { margin: 0.33em 0; border-bottom: 1px solid hsl(0deg 0% 50% / 30%); display: flex;  justify-content: space-between; }
+.club_directory_logo { align-items: flex-start; padding: 1rem; float: right; }
+.club_directory_logo .img-responsive { min-width: 175px; max-width: 200px; }
+.club_directory_info { align-items: flex-start; flex-grow: 1; }
+.officer { font-size: larger; }
+.officers caption { text-align: left; padding-bottom: 0.66rem; }
+.officers caption > * { display: inline; }
+.officers :is(th,td) { border: 0; padding: 0.66rem 0.33rem; }
+.officers tbody tr td:first-of-type { text-align: center; background-color: inherit; }
+.officers thead tr th:not(:first-of-type) { text-align: left; }
+.text-warning { color: orange; }
+@media screen and (min-width: 992px) {
+	.officers { max-width: 55vw; }
+}
+@media print {
+	a[href]:after { content: unset; }
+	body { font-size: 10pt; }
+	.elementor-location-header, #banner, .elementor-location-footer { display: none; }
+	.club_directory_logo { padding: 0.5rem; }
+	.club_directory_logo .img-responsive { min-width: 75px; max-width: 125px; }
+	.officers :is(th,td) { border: 0; padding: 0.25rem 0.33rem; }
+	h1 { font-size: 18pt; }
+	h2 { font-size: 16pt; }
+	h3 { font-size: 14pt; }
+	h4 { font-size: 12pt; }
+	section.clubregion { page-break-before: always; }
+	section.clubregion:first-of-type { page-break-before: avoid; }
+}
+@page {
+	margin: 0.5in 0.75in;
+}
+</style>
+<div class="club_directory">
+	{$shortcode_return}
+</div>
+HTML;
+
+}
+add_shortcode('efmls_directory','efmls_generate_directory');
+
+// }}}
+
 // {{{ Add custom stylesheet for when we are editing the clubdetails custom post type
 function efmls_add_cpt_styles () {
 	global $post_type;
