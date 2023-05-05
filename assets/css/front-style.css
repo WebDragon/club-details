@@ -11,6 +11,7 @@
 .officers tbody tr td:first-of-type { text-align: center; background-color: inherit; }
 .officers thead tr th:not(:first-of-type) { text-align: left; }
 .text-warning { color: orange; }
+.alphabetical_clubs p { margin-bottom: 0.15rem; }
 @media screen and (min-width: 992px) {
 	.officers { max-width: 55vw; }
 }
