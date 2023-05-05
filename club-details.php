@@ -377,7 +377,7 @@ HTML;
 	<div class="club_directory_entry">
 		<div class="club_directory_info">
 			<div class="club_directory_logo">{$img}</div>
-			<h3>{$efmls_general['club_name']} &ndash; <i class="fa fa-map-marker"></i> <i>{$region}</i></h3>
+			<h3>{$efmls_general['club_name']} &ndash; <i class="fad fa-map-marker-alt fa-xs"></i> <i>{$region}</i></h3>
 
 			<p><b>Club Website</b>: <a href="{$efmls_general['website_url']}">{$efmls_general['website_url']}</a><br>
 			<b>Facebook</b>: <a href="{$efmls_general['facebook_url']}">{$efmls_general['facebook_url']}</a><br>
