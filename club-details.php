@@ -452,6 +452,7 @@ HTML;
 	wp_reset_postdata();
 	return <<<HTML
 <style>
+.club_directory, .alphabetical_clubs { margin-bottom: 2.5rem; }
 .club_directory_entry { margin: 0.33em 0; border-bottom: 1px solid hsl(0deg 0% 50% / 30%); display: flex;  justify-content: space-between; }
 .club_directory_logo { align-items: flex-start; padding: 1rem; float: right; }
 .club_directory_logo .img-responsive { min-width: 175px; max-width: 200px; }
