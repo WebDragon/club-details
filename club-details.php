@@ -451,40 +451,6 @@ HTML;
 
 	wp_reset_postdata();
 	return <<<HTML
-<style>
-.club_directory, .alphabetical_clubs { margin-bottom: 2.5rem; }
-.club_directory_entry { margin: 0.33em 0; border-bottom: 1px solid hsl(0deg 0% 50% / 30%); display: flex;  justify-content: space-between; }
-.club_directory_logo { align-items: flex-start; padding: 1rem; float: right; }
-.club_directory_logo .img-responsive { min-width: 175px; max-width: 200px; }
-.club_directory_info { align-items: flex-start; flex-grow: 1; }
-.officer { font-size: larger; }
-.officers caption { text-align: left; padding-bottom: 0.66rem; }
-.officers caption > * { display: inline; }
-.officers :is(th,td) { border: 0; padding: 0.66rem 0.33rem; }
-.officers tbody tr td:first-of-type { text-align: center; background-color: inherit; }
-.officers thead tr th:not(:first-of-type) { text-align: left; }
-.text-warning { color: orange; }
-@media screen and (min-width: 992px) {
-	.officers { max-width: 55vw; }
-}
-@media print {
-	a[href]:after { content: unset; }
-	body { font-size: 10pt; }
-	.elementor-location-header, #banner, .elementor-location-footer { display: none; }
-	.club_directory_logo { padding: 0.5rem; }
-	.club_directory_logo .img-responsive { min-width: 75px; max-width: 125px; }
-	.officers :is(th,td) { border: 0; padding: 0.25rem 0.33rem; }
-	h1 { font-size: 18pt; }
-	h2 { font-size: 16pt; }
-	h3 { font-size: 14pt; }
-	h4 { font-size: 12pt; }
-	section.clubregion { page-break-before: always; }
-	section.clubregion:first-of-type { page-break-before: avoid; }
-}
-@page {
-	margin: 0.5in 0.75in;
-}
-</style>
 <div class="club_directory">
 	{$shortcode_return}
 </div>
@@ -508,6 +474,16 @@ function efmls_add_cpt_styles () {
 }
 add_action( 'admin_print_scripts-post-new.php', 'efmls_add_cpt_styles', 11 );
 add_action( 'admin_print_scripts-post.php', 'efmls_add_cpt_styles', 11 );
+// }}}
+
+// {{{ Add custom stylesheet for annual directory on the front-end of the site
+function efmls_add_front_styles() {
+	if ( is_page( array( 'directory-test', 'annual-directory' ) ) ) { 
+		wp_enqueue_style('club_details-front-styles', CLUB_STYLES . 'front-style.css');
+	}	
+}
+add_action('wp_enqueue_scripts', 'efmls_add_front_styles');
+
 // }}}
 
 // include scripting to dynamically update values onscreen if changed
