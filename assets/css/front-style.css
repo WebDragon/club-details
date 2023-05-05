@@ -28,6 +28,9 @@
 	h4 { font-size: 12pt; }
 	section.clubregion { page-break-before: always; }
 	section.clubregion:first-of-type { page-break-before: avoid; }
+	/* fix background-color overrides from elementor for tablestyles so rows can have even/odd color if enabled in print dialog */
+	table tbody>tr:nth-child(odd)>td, table tbody>tr:nth-child(odd)>th { background-color: hsla(0,0%,50.2%,.0705882353) !important; }
+	.officers tbody tr td:first-of-type { background-color: transparent !important; }
 }
 @page {
 	margin: 0.5in 0.75in;
