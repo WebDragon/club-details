@@ -479,7 +479,7 @@ add_action( 'admin_print_scripts-post.php', 'efmls_add_cpt_styles', 11 );
 // {{{ Add custom stylesheet for annual directory on the front-end of the site
 function efmls_add_front_styles() {
 	if ( is_page( array( 'directory-test', 'annual-directory' ) ) ) { 
-		wp_enqueue_style('club_details-front-styles', CLUB_STYLES . 'front-style.css');
+		wp_enqueue_style('club_details-front-styles', CLUB_STYLES . 'front-style.css', array('hello-elementor-theme-style', 'hello-elementor') );
 	}	
 }
 add_action('wp_enqueue_scripts', 'efmls_add_front_styles');
