@@ -439,7 +439,7 @@ HTML;
 	$alpha_list = <<<HTML
 		<section class="alpha_list">
 HTML;
-	ksort($club_names);
+	asort($club_names);
 	foreach ($club_names as $club_name) {
 		$alpha_list .= <<<HTML
 			<p>{$club_name}</p>
