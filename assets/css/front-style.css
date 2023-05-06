@@ -10,6 +10,7 @@
 .officers :is(th,td) { border: 0; padding: 0.66rem 0.33rem; }
 .officers tbody tr td:first-of-type { text-align: center; background-color: inherit; }
 .officers thead tr th:not(:first-of-type) { text-align: left; }
+table tbody>tr:nth-child(odd)>td, table tbody>tr:nth-child(odd)>th { background-color: hsla(0,0%,0%,.1); } /* default elementor shade too subtle for firefox or print */
 .text-warning { color: orange; }
 .alphabetical_clubs p { margin-bottom: 0.15rem; }
 @media screen and (min-width: 992px) {
@@ -29,7 +30,7 @@
 	section.clubregion { page-break-before: always; }
 	section.clubregion:first-of-type { page-break-before: avoid; }
 	/* fix background-color overrides from elementor for tablestyles so rows can have even/odd color if enabled in print dialog */
-	table tbody>tr:nth-child(odd)>td, table tbody>tr:nth-child(odd)>th { background-color: hsla(0,0%,50.2%,.0705882353) !important; }
+	table tbody>tr:nth-child(odd)>td, table tbody>tr:nth-child(odd)>th { background-color: hsla(0,0%,0%,.1) !important; }
 	.officers tbody tr td:first-of-type { background-color: transparent !important; }
 }
 @page {
