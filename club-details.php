@@ -451,10 +451,11 @@ HTML;
 
 	wp_reset_postdata();
 	return <<<HTML
+<h1 id="efmls-clubs-region">EFMLS Member Clubs by Region</h1>
 <div class="club_directory">
 	{$shortcode_return}
 </div>
-<h1>Alphabetical List of Clubs</h1>
+<h1 id="efmls-clubs-alpha">Alphabetical List of Clubs</h1>
 <div class="alphabetical_clubs">
 	{$alpha_list}
 </div>
