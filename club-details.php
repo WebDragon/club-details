@@ -372,6 +372,8 @@ HTML;
 HTML;
 		$img = ($img === null || $img === '') ? $fallbackimg : $img;
 		$ordered_data[$region]['desc'] = $regiondesc;
+		if (!isset( $ordered_data[$region]['clubs'] )) { $ordered_data[$region]['clubs'] = array(); } // fix php 8.0 warnings
+		if (!isset( $ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] )) { $ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] = ""; } // fix php 8.0 warnings
 		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= <<<HTML
 
 	<div class="club_directory_entry">
