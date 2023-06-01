@@ -377,7 +377,7 @@ HTML;
 	<div class="club_directory_entry">
 		<div class="club_directory_info">
 			<div class="club_directory_logo">{$img}</div>
-			<h3>{$efmls_general['club_name']} &ndash; <i class="fa fa-map-marker"></i> <i>{$region}</i></h3>
+			<h3>{$efmls_general['club_name']} &ndash; <i class="fad fa-map-marker-alt fa-xs"></i> <i>{$region}</i></h3>
 
 			<p><b>Club Website</b>: <a href="{$efmls_general['website_url']}">{$efmls_general['website_url']}</a><br>
 			<b>Facebook</b>: <a href="{$efmls_general['facebook_url']}">{$efmls_general['facebook_url']}</a><br>
@@ -419,7 +419,7 @@ HTML;
 HTML;
 
 	}
-
+	$club_names = array();
 	ksort($ordered_data);
 	foreach ($ordered_data as $region => $regiondata ) {
 		$shortcode_return .= <<<HTML
@@ -429,49 +429,35 @@ HTML;
 HTML;
 		ksort($regiondata['clubs']);
 		foreach ($regiondata['clubs'] as $club_name => $clubdata ) {
+			$club_names[] = $club_name;
 			$shortcode_return .= $clubdata;
 		}
 		$shortcode_return .= <<<HTML
 		</section>
+HTML;	
+	}
+	$alpha_list = <<<HTML
+		<section class="alpha_list">
+HTML;
+	asort($club_names);
+	foreach ($club_names as $club_name) {
+		$alpha_list .= <<<HTML
+			<p>{$club_name}</p>
 HTML;
 	}
+	$alpha_list .= <<<HTML
+		</section>
+HTML;
+
 	wp_reset_postdata();
 	return <<<HTML
-<style>
-.club_directory_entry { margin: 0.33em 0; border-bottom: 1px solid hsl(0deg 0% 50% / 30%); display: flex;  justify-content: space-between; }
-.club_directory_logo { align-items: flex-start; padding: 1rem; float: right; }
-.club_directory_logo .img-responsive { min-width: 175px; max-width: 200px; }
-.club_directory_info { align-items: flex-start; flex-grow: 1; }
-.officer { font-size: larger; }
-.officers caption { text-align: left; padding-bottom: 0.66rem; }
-.officers caption > * { display: inline; }
-.officers :is(th,td) { border: 0; padding: 0.66rem 0.33rem; }
-.officers tbody tr td:first-of-type { text-align: center; background-color: inherit; }
-.officers thead tr th:not(:first-of-type) { text-align: left; }
-.text-warning { color: orange; }
-@media screen and (min-width: 992px) {
-	.officers { max-width: 55vw; }
-}
-@media print {
-	a[href]:after { content: unset; }
-	body { font-size: 10pt; }
-	.elementor-location-header, #banner, .elementor-location-footer { display: none; }
-	.club_directory_logo { padding: 0.5rem; }
-	.club_directory_logo .img-responsive { min-width: 75px; max-width: 125px; }
-	.officers :is(th,td) { border: 0; padding: 0.25rem 0.33rem; }
-	h1 { font-size: 18pt; }
-	h2 { font-size: 16pt; }
-	h3 { font-size: 14pt; }
-	h4 { font-size: 12pt; }
-	section.clubregion { page-break-before: always; }
-	section.clubregion:first-of-type { page-break-before: avoid; }
-}
-@page {
-	margin: 0.5in 0.75in;
-}
-</style>
+<h1 id="efmls-clubs-region">EFMLS Member Clubs by Region</h1>
 <div class="club_directory">
 	{$shortcode_return}
+</div>
+<h1 id="efmls-clubs-alpha">Alphabetical List of Clubs</h1>
+<div class="alphabetical_clubs">
+	{$alpha_list}
 </div>
 HTML;
 
@@ -489,6 +475,16 @@ function efmls_add_cpt_styles () {
 }
 add_action( 'admin_print_scripts-post-new.php', 'efmls_add_cpt_styles', 11 );
 add_action( 'admin_print_scripts-post.php', 'efmls_add_cpt_styles', 11 );
+// }}}
+
+// {{{ Add custom stylesheet for annual directory on the front-end of the site
+function efmls_add_front_styles() {
+	if ( is_page( array( 'directory-test', 'annual-directory' ) ) ) { 
+		wp_enqueue_style('club_details-front-styles', CLUB_STYLES . 'front-style.css', array('hello-elementor-theme-style', 'hello-elementor') );
+	}	
+}
+add_action('wp_enqueue_scripts', 'efmls_add_front_styles');
+
 // }}}
 
 // include scripting to dynamically update values onscreen if changed
