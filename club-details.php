@@ -424,8 +424,9 @@ HTML;
 	$club_names = array();
 	ksort($ordered_data);
 	foreach ($ordered_data as $region => $regiondata ) {
+		$region_id = strtolower( preg_replace('/\s+/', '_', $region) );
 		$shortcode_return .= <<<HTML
-		<section class="clubregion">
+		<section class="clubregion" id="{$region_id}">
 			<h2>{$region}</h2>
 			<p class="regiondesc">{$regiondata['desc']}</p>
 HTML;
