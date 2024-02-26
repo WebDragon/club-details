@@ -406,7 +406,7 @@ HTML;
 		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Vice President", $efmls_officer['vp_name'], $efmls_officer['vp_phone'], $efmls_officer['vp_email'] );
 		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Secretary", $efmls_officer['secretary_name'], $efmls_officer['secretary_phone'], $efmls_officer['secretary_email'] );
 		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Treasurer", $efmls_officer['treasurer_name'], $efmls_officer['treasurer_phone'], $efmls_officer['treasurer_email'] );
-		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Liason", $efmls_officer['liason_name'], $efmls_officer['liason_phone'], $efmls_officer['liason_email'] );
+		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Liaison", $efmls_officer['liason_name'], $efmls_officer['liason_phone'], $efmls_officer['liason_email'] );
 		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Editor", $efmls_officer['editor_name'], $efmls_officer['editor_phone'], $efmls_officer['editor_email'] );
 		$ordered_data[$region]['clubs'][ $efmls_general['club_name'] ] .= efmls_tabledata( "Webmaster", $efmls_officer['webmaster_name'], $efmls_officer['webmaster_phone'], $efmls_officer['webmaster_email'] );
 
