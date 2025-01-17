@@ -368,7 +368,7 @@ HTML;
 
 		$img = get_the_post_thumbnail(get_the_ID(), 'medium', ['class' => 'img-responsive']);
 		$fallbackimg = <<<HTML
-			<figure><img width="300" height="300" src=/wp-content/uploads/2022/05/EFMLS-Member-Logo.png" class="img-responsive wp-post-image" title="EFMLS Member Club Logo placeholder image" alt="EFMLS Member Club Logo placeholder image" loading="lazy" srcset="/wp-content/uploads/2022/05/EFMLS-Member-Logo.png 600w, /wp-content/uploads/2022/05/EFMLS-Member-Logo-300x300.png 300w, /wp-content/uploads/2022/05/EFMLS-Member-Logo-150x150.png 150w" sizes="(max-width: 600px) 100vw, 600px"></figure>
+			<figure><img width="350" height="350" src=/wp-content/uploads/2022/05/EFMLS-Member-Logo.png" class="img-responsive wp-post-image" title="EFMLS Member Club Logo placeholder image" alt="EFMLS Member Club Logo placeholder image" loading="lazy" srcset="/wp-content/uploads/2022/05/EFMLS-Member-Logo.png 600w, /wp-content/uploads/2022/05/EFMLS-Member-Logo-350x350.png 350w" sizes="(max-width: 600px) 100vw, 600px"></figure>
 HTML;
 		$img = ($img === null || $img === '') ? $fallbackimg : $img;
 		$ordered_data[$region]['desc'] = $regiondesc;
