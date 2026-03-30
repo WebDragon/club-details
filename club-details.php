@@ -3,7 +3,7 @@
 	Description: Custom post type and editing for club membership information (location, members, dues, etc), officers, and insurance info with additional shortcodes for use in Elementor templating
 	Author: Scott R. Godin for MAD House Graphics
 	Author URI: https://madhousegraphics.com
-	Version: 0.24
+	Version: 0.25
 	License: GPL3
  */
 
@@ -238,9 +238,9 @@ function efmls_public_contact_shortcode( $atts, $content=null ) {
 	if ( !function_exists('get_field') ) { return "<h3> `get_field` function not available. Please make sure ACF is installed and enabled</h3>"; }
 	$efmls_general = get_field('general_information');
 	$efmls_public = array(
-		'name' => $efmls_general['public_contact_name'],
-		'email' => $efmls_general['public_contact_email'],
-		'phone' => $efmls_general['public_contact_phone'],
+		'name'  => isset($efmls_general['public_contact_name'])  ? $efmls_general['public_contact_name']  : '',
+		'email' => isset($efmls_general['public_contact_email']) ? $efmls_general['public_contact_email'] : '',
+		'phone' => isset($efmls_general['public_contact_phone']) ? $efmls_general['public_contact_phone'] : '',
 	);
 	$shortcode_return = '';
 	if (
